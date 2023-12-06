@@ -1,8 +1,8 @@
-defmodule Ukio.Apartments.Booking do
+defmodule Ukio.Entities.Booking do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Ukio.Apartments.Apartment
+  alias Ukio.Entities.Apartment
 
   schema "bookings" do
     belongs_to(:apartment, Apartment)

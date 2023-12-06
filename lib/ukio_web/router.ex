@@ -24,7 +24,21 @@ defmodule UkioWeb.Router do
     pipe_through :api
 
     get "/apartments", ApartmentController, :index
-    resources "/bookings", BookingController, [:show, :create]
+    resources "/bookings", BookingController, [:show, :create, :index]
+  end
+
+  scope "/api/swagger" do
+    forward "/", PhoenixSwagger.Plug.SwaggerUI, otp_app: :ukio, swagger_file: "swagger.json"
+  end
+
+  def swagger_info do
+    %{
+      info: %{
+        version: "1.0",
+        title: "Ukio Booking API"
+      },
+       basePath: "/api"
+    }
   end
 
   # Other scopes may use custom stacks.

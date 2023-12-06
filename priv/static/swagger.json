@@ -1,0 +1,120 @@
+{
+  "info": {
+    "version": "1.0",
+    "title": "Ukio Booking API"
+  },
+  "definitions": {
+    "Booking": {
+      "description": "Booking",
+      "properties": {
+        "check_in": {
+          "description": "check in",
+          "format": "datetime",
+          "type": "string"
+        },
+        "check_out": {
+          "description": "check out",
+          "format": "datetime",
+          "type": "string"
+        },
+        "deposit": {
+          "type": "integer"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "monthly_rent": {
+          "type": "integer"
+        },
+        "utilities": {
+          "type": "integer"
+        }
+      },
+      "title": "Booking",
+      "type": "object"
+    },
+    "Bookings": {
+      "description": "A collection of Bookings",
+      "items": {
+        "$ref": "#/definitions/Booking"
+      },
+      "title": "Bookings",
+      "type": "array"
+    },
+    "Apartments": {
+      "description": "A collection of Apartments",
+      "items": {
+        "$ref": "#/definitions/Apartment"
+      },
+      "title": "Apartments",
+      "type": "array"
+    },
+    "Apartment": {
+      "description": "Apartment",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "monthly_price": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "square_meters": {
+          "type": "integer"
+        },
+        "zip_code": {
+          "type": "string"
+        }
+      },
+      "title": "Apartment",
+      "type": "object"
+    }
+  },
+  "basePath": "/api",
+  "paths": {
+    "/apartments": {
+      "get": {
+        "description": "List of apartments",
+        "operationId": "UkioWeb.ApartmentController.index",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Apartments"
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Apartment"
+        ]
+      }
+    },
+    "/bookings": {
+      "get": {
+        "description": "List of bookings",
+        "operationId": "UkioWeb.BookingController.index",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Bookings"
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Booking"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0"
+}

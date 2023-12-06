@@ -1,5 +1,5 @@
 defmodule UkioWeb.ApartmentJSON do
-  alias Ukio.Apartments.Apartment
+  alias Ukio.Entities.Apartment
 
   @doc """
   Renders a list of apartments.

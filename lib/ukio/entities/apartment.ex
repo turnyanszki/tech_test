@@ -1,4 +1,4 @@
-defmodule Ukio.Apartments.Apartment do
+defmodule Ukio.Entities.Apartment do
   use Ecto.Schema
   import Ecto.Changeset
 

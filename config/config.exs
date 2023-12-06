@@ -20,6 +20,13 @@ config :ukio, UkioWeb.Endpoint,
   pubsub_server: Ukio.PubSub,
   live_view: [signing_salt: "noVkb7rg"]
 
+  config :ukio, :phoenix_swagger,
+  swagger_files: %{
+    "priv/static/swagger.json" => [
+      router: UkioWeb.Router
+    ]
+  }
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
@@ -58,6 +65,8 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+config :phoenix_swagger, json_library: Jason
+
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
