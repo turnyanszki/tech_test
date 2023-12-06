@@ -1,7 +1,7 @@
 defmodule UkioWeb.ApartmentControllerTest do
   use UkioWeb.ConnCase, async: true
 
-  import Ukio.ApartmentsFixtures
+  import Ukio.ApartmentFixtures
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}

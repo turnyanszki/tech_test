@@ -2,7 +2,7 @@ defmodule UkioWeb.ApartmentController do
   use UkioWeb, :controller
   use PhoenixSwagger
 
-  alias Ukio.Services.ApartmentService
+  alias Ukio.Repositories.ApartmentRepository
 
   action_fallback UkioWeb.FallbackController
 
@@ -36,7 +36,7 @@ defmodule UkioWeb.ApartmentController do
   end
 
   def index(conn, _params) do
-    apartments = ApartmentService.list_apartments()
+    apartments = ApartmentRepository.list_apartments()
     render(conn, :index, apartments: apartments)
   end
 end

@@ -43,20 +43,26 @@ After putting our first API MVP online, we're ready to face a second iteration, 
   > Create a new booking. For its creation, we need the following body
   ```JSON
     {
-      check_in: date
-      check_out: date
-      apartment_id: integer
+      booking: 
+      {
+        check_in: date
+        check_out: date
+        apartment_id: integer
+      }
     }
   ```
   Returns a `201` when the booking has been created. The response body looks like follows:
   ```JSON
     {
-      check_in: date
-      check_out: date
-      apartment_id: integer
-      monthly_rent: integer
-      deposit: integer
-      utilities: integer
+      data:
+      {
+        check_in: date
+        check_out: date
+        apartment_id: integer
+        monthly_rent: integer
+        deposit: integer
+        utilities: integer
+      }
     }
   ```
 

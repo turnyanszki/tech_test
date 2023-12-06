@@ -4,7 +4,7 @@ defmodule UkioWeb.BookingController do
 
   alias Ukio.Services.BookingService
   alias Ukio.Entities.Booking
-  alias Ukio.Bookings.Handlers.BookingCreator
+  alias Ukio.Repositories.BookingRepository
 
   action_fallback UkioWeb.FallbackController
 
@@ -39,7 +39,7 @@ defmodule UkioWeb.BookingController do
 
 
   def create(conn, %{"booking" => booking_params}) do
-    with {:ok, %Booking{} = booking} <- BookingCreator.create(booking_params) do
+    with {:ok, %Booking{} = booking} <- BookingService.create(booking_params) do
       conn
       |> put_status(:created)
       |> render(:show, booking: booking)
@@ -47,12 +47,12 @@ defmodule UkioWeb.BookingController do
   end
 
   def show(conn, %{"id" => id}) do
-    booking = BookingService.get_booking!(id)
+    booking = BookingRepository.get_booking!(id)
     render(conn, :show, booking: booking)
   end
 
   def index(conn, _params) do
-    bookings = BookingService.list_bookings()
+    bookings = BookingRepository.list_bookings()
     render(conn, :index, bookings: bookings)
   end
 end

@@ -1,106 +1,25 @@
 defmodule Ukio.Services.BookingService do
-  @moduledoc """
-  The Bookings context.
-  """
+  alias Ukio.Repositories.ApartmentRepository
+  alias Ukio.Repositories.BookingRepository
 
-  import Ecto.Query, warn: false
-  alias Ukio.Repo
-
-  alias Ukio.Entities.Booking
-
-  @doc """
-  Returns the list of bookings.
-
-  ## Examples
-
-      iex> list_bookings()
-      [%Booking{}, ...]
-
-  """
-  def list_bookings do
-    Repo.all(Booking)
+  def create(
+        %{"check_in" => check_in, "check_out" => check_out, "apartment_id" => apartment_id} =
+          params
+      ) do
+    with a <- ApartmentRepository.get_apartment!(apartment_id),
+         b <- generate_booking_data(a, check_in, check_out) do
+      BookingRepository.create_booking(b)
+    end
   end
 
-  @doc """
-  Gets a single booking.
-
-  Raises `Ecto.NoResultsError` if the Booking does not exist.
-
-  ## Examples
-
-      iex> get_booking!(123)
-      %Booking{}
-
-      iex> get_booking!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_booking!(id) do 
-    Repo.get!(Booking, id)
-  end
-
-  @doc """
-  Creates a booking.
-
-  ## Examples
-
-      iex> create_booking(%{field: value})
-      {:ok, %Booking{}}
-
-      iex> create_booking(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_booking(attrs \\ %{}) do
-    %Booking{}
-    |> Booking.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a booking.
-
-  ## Examples
-
-      iex> update_booking(booking, %{field: new_value})
-      {:ok, %Booking{}}
-
-      iex> update_booking(booking, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_booking(%Booking{} = booking, attrs) do
-    booking
-    |> Booking.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a booking.
-
-  ## Examples
-
-      iex> delete_booking(booking)
-      {:ok, %Booking{}}
-
-      iex> delete_booking(booking)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_booking(%Booking{} = booking) do
-    Repo.delete(booking)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking booking changes.
-
-  ## Examples
-
-      iex> change_booking(booking)
-      %Ecto.Changeset{data: %Booking{}}
-
-  """
-  def change_booking(%Booking{} = booking, attrs \\ %{}) do
-    Booking.changeset(booking, attrs)
+  defp generate_booking_data(apartment, check_in, check_out) do
+    %{
+      apartment_id: apartment.id,
+      check_in: check_in,
+      check_out: check_out,
+      monthly_rent: apartment.monthly_price,
+      utilities: 20_000,
+      deposit: 100_000
+    }
   end
 end
