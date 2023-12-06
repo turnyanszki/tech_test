@@ -2,6 +2,8 @@ defmodule UkioWeb.BookingController do
   use UkioWeb, :controller
   use PhoenixSwagger
 
+  require Logger
+
   alias Ukio.Services.BookingService
   alias Ukio.Entities.Booking
   alias Ukio.Repositories.BookingRepository
@@ -38,13 +40,22 @@ defmodule UkioWeb.BookingController do
   end
 
 
-  def create(conn, %{"booking" => booking_params}) do
-    with {:ok, %Booking{} = booking} <- BookingService.create(booking_params) do
+def create(conn, %{"booking" => booking_params}) do
+  case BookingService.create(booking_params) do
+    {:ok, %Booking{} = booking} ->
       conn
       |> put_status(:created)
       |> render(:show, booking: booking)
-    end
+     401 ->
+      conn
+      |> put_status(401)
+      |> send_resp(401, "Overlapping booking")
+    _ ->
+      conn
+      |> put_status(500)
+      |> send_resp(500, "Server error")
   end
+end
 
   def show(conn, %{"id" => id}) do
     booking = BookingRepository.get_booking!(id)

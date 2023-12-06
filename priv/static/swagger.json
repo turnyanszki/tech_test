@@ -4,6 +4,39 @@
     "title": "Ukio Booking API"
   },
   "definitions": {
+    "Apartment": {
+      "description": "Apartment",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "monthly_price": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "square_meters": {
+          "type": "integer"
+        },
+        "zip_code": {
+          "type": "string"
+        }
+      },
+      "title": "Apartment",
+      "type": "object"
+    },
+    "Apartments": {
+      "description": "A collection of Apartments",
+      "items": {
+        "$ref": "#/definitions/Apartment"
+      },
+      "title": "Apartments",
+      "type": "array"
+    },
     "Booking": {
       "description": "Booking",
       "properties": {
@@ -40,42 +73,8 @@
       },
       "title": "Bookings",
       "type": "array"
-    },
-    "Apartments": {
-      "description": "A collection of Apartments",
-      "items": {
-        "$ref": "#/definitions/Apartment"
-      },
-      "title": "Apartments",
-      "type": "array"
-    },
-    "Apartment": {
-      "description": "Apartment",
-      "properties": {
-        "address": {
-          "type": "string"
-        },
-        "id": {
-          "type": "integer"
-        },
-        "monthly_price": {
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "square_meters": {
-          "type": "integer"
-        },
-        "zip_code": {
-          "type": "string"
-        }
-      },
-      "title": "Apartment",
-      "type": "object"
     }
   },
-  "basePath": "/api",
   "paths": {
     "/apartments": {
       "get": {
@@ -116,5 +115,6 @@
       }
     }
   },
-  "swagger": "2.0"
+  "swagger": "2.0",
+  "basePath": "/api"
 }

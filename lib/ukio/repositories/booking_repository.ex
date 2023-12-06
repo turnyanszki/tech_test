@@ -104,4 +104,14 @@ defmodule Ukio.Repositories.BookingRepository do
     Booking.changeset(booking, attrs)
   end
   
+def date_overlap(apartment_id, check_in, check_out, query \\ Booking) do
+  case query
+       |> where([m], m.apartment_id == ^apartment_id and m.check_out >= ^check_in and m.check_in <= ^check_out)
+       |> Repo.one() do
+    nil ->
+      :ok 
+    _ ->
+      401
+  end
+end
 end

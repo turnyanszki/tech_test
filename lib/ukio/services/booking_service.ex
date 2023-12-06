@@ -7,8 +7,12 @@ defmodule Ukio.Services.BookingService do
           params
       ) do
     with a <- ApartmentRepository.get_apartment!(apartment_id),
+         :ok <-  BookingRepository.date_overlap(apartment_id,check_in, check_out),
          b <- generate_booking_data(a, check_in, check_out) do
       BookingRepository.create_booking(b)
+    else
+      401 -> 401
+      _ -> :error
     end
   end
 
