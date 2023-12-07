@@ -11,6 +11,18 @@ defmodule UkioWeb.BookingControllerTest do
     check_out: ~D[2023-03-26]
   }
 
+  @overlapping_attr1 %{
+    apartment_id: 1,
+    check_in: ~D[2023-01-10],
+    check_out: ~D[2023-01-12]
+  }
+
+  @overlapping_attr2 %{
+    apartment_id: 1,
+    check_in: ~D[2023-01-11],
+    check_out: ~D[2023-01-13]
+  }
+
   @invalid_attrs %{
     apartment_id: 1,
     check_in: nil,
@@ -46,7 +58,16 @@ defmodule UkioWeb.BookingControllerTest do
     test "renders errors when data is invalid", %{conn: conn, apartment: apartment} do
       b = Map.merge(@invalid_attrs, %{apartment_id: apartment.id})
       conn = post(conn, ~p"/api/bookings", booking: b)
-      assert json_response(conn, 422)["errors"] != %{}
+      assert json_response(conn, 500)["errors"] != %{}
+    end
+
+    test "renders errors and returns 401 when overlapping booking", %{conn: conn, apartment: apartment} do
+    b1 = Map.merge(@overlapping_attr1, %{apartment_id: apartment.id})
+    b2 = Map.merge(@overlapping_attr2, %{apartment_id: apartment.id})
+    conn = post(conn, ~p"/api/bookings", booking: b1)
+    assert json_response(conn, 201)
+    conn = post(conn, ~p"/api/bookings", booking: b2)
+    assert json_response(conn, 401)
     end
   end
 

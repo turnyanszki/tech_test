@@ -49,11 +49,13 @@ def create(conn, %{"booking" => booking_params}) do
      401 ->
       conn
       |> put_status(401)
-      |> send_resp(401, "Overlapping booking")
+      |> put_view(UkioWeb.ErrorJSON)
+      |> render("401.json", %{error: "Overlapping booking"})
     _ ->
       conn
       |> put_status(500)
-      |> send_resp(500, "Server error")
+      |> put_view(UkioWeb.ErrorJSON)
+      |> render("500.json", %{error: "Server error"})
   end
 end
 
