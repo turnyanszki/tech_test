@@ -10,6 +10,13 @@ defmodule UkioWeb.ErrorJSON do
   # the template name. For example, "404.json" becomes
   # "Not Found".
 
+  def render("500.json", _assigns) do
+    %{errors: %{detail: "Server error"}}
+  end
+    def render("401.json", _assigns) do
+    %{errors: %{detail: "Overlapping booking"}}
+  end
+
   def render(template, _assigns) do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end

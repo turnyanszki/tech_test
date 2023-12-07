@@ -44,28 +44,29 @@ def create(conn, %{"booking" => booking_params}) do
   case BookingService.create(booking_params) do
     {:ok, %Booking{} = booking} ->
       conn
-      |> put_status(:created)
+      |> put_status(201)
+      |> put_view(UkioWeb.BookingJSON)
       |> render(:show, booking: booking)
      401 ->
       conn
       |> put_status(401)
       |> put_view(UkioWeb.ErrorJSON)
-      |> render("401.json", %{error: "Overlapping booking"})
+      |> render("401.json")
     _ ->
       conn
       |> put_status(500)
       |> put_view(UkioWeb.ErrorJSON)
-      |> render("500.json", %{error: "Server error"})
+      |> render("500.json")
   end
 end
 
   def show(conn, %{"id" => id}) do
     booking = BookingRepository.get_booking!(id)
-    render(conn, :show, booking: booking)
+    render(:show, booking: booking)
   end
 
   def index(conn, _params) do
     bookings = BookingRepository.list_bookings()
-    render(conn, :index, bookings: bookings)
+    render(:index, bookings: bookings)
   end
 end

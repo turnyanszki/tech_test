@@ -5,7 +5,11 @@ defmodule Ukio.Services.BookingService do
   def create(
         %{"check_in" => check_in, "check_out" => check_out, "apartment_id" => apartment_id} =
           params
-      ) do
+      ) when
+        not is_nil(apartment_id) and
+        not is_nil(check_in) and
+        not is_nil(check_out)
+       do
     with a <- ApartmentRepository.get_apartment!(apartment_id),
          {:ok,_} <-  BookingRepository.date_overlap(apartment_id,check_in, check_out),
          b <- generate_booking_data(a, check_in, check_out) do
@@ -15,6 +19,8 @@ defmodule Ukio.Services.BookingService do
       _ -> {:error, :unexpected}
     end
   end
+
+  def create(_), do: {:error, :unexpected}
 
   defp generate_booking_data(apartment, check_in, check_out) do
     %{
