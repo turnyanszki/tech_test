@@ -27,6 +27,7 @@ After putting our first API MVP online, we're ready to face a second iteration, 
     * Zip code
     * Monthly price
     * Square meters
+	* Market
 
 
 2. Bookings
