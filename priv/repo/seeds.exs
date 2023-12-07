@@ -9,18 +9,20 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-Ukio.Repo.insert!(%Ukio.Apartments.Apartment{
+Ukio.Repo.insert!(%Ukio.Entities.Apartment{
   zip_code: "08007",
   name: "CAPITAN",
   monthly_price: 250_000,
   address: "Carrer de Balmes 76",
-  square_meters: 120
+  square_meters: 120,
+  market: :mars
 })
 
-Ukio.Repo.insert!(%Ukio.Apartments.Apartment{
+Ukio.Repo.insert!(%Ukio.Entities.Apartment{
   zip_code: "08007",
   name: "CAPITAN",
   monthly_price: 195_000,
   address: "Carrer de Granados 45",
-  square_meters: 89
+  square_meters: 89,
+  market: :earth
 })

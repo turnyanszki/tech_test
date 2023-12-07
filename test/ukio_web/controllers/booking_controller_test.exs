@@ -1,7 +1,6 @@
 defmodule UkioWeb.BookingControllerTest do
   use UkioWeb.ConnCase, async: true
-
-  import Ukio.BookingFixtures
+  
   import Ukio.ApartmentFixtures
 
 
@@ -34,7 +33,7 @@ defmodule UkioWeb.BookingControllerTest do
 
   setup %{conn: conn} do
     {:ok,
-     conn: put_req_header(conn, "accept", "application/json"), apartment: apartment_fixture()}
+     conn: put_req_header(conn, "accept", "application/json"), apartment: apartment_fixture_earth()}
   end
 
   describe "create booking" do
@@ -69,10 +68,5 @@ defmodule UkioWeb.BookingControllerTest do
     conn = post(conn, ~p"/api/bookings", booking: b2)
     assert json_response(conn, 401)
     end
-  end
-
-  defp create_booking(_) do
-    booking = booking_fixture()
-    %{booking: booking}
   end
 end

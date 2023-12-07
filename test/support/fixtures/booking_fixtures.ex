@@ -1,7 +1,7 @@
 defmodule Ukio.BookingFixtures do
   alias Ukio.ApartmentFixtures
   def booking_fixture(attrs \\ %{}) do
-    apartment = ApartmentFixtures.apartment_fixture()
+    apartment = ApartmentFixtures.apartment_fixture_earth()
 
     {:ok, booking} =
       attrs

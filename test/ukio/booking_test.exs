@@ -2,6 +2,7 @@ defmodule Ukio.BookingTest do
   use Ukio.DataCase
 
   alias Ukio.Repositories.BookingRepository
+  alias Ukio.Services.BookingService
 
   describe "bookings" do
     alias Ukio.Entities.Booking
@@ -19,7 +20,7 @@ defmodule Ukio.BookingTest do
       utilities: nil
     }
     setup do
-      %{apartment: apartment_fixture()}
+      %{earth_apartment: apartment_fixture_earth(), mars_apartment: apartment_fixture_mars()}
     end
 
     test "list_bookings/0 returns all bookings" do
@@ -32,23 +33,36 @@ defmodule Ukio.BookingTest do
       assert BookingRepository.get_booking!(booking.id) == booking
     end
 
-    test "create_booking/1 with valid data creates a booking", %{apartment: apartment} do
+    test "create_booking/1 with valid data creates a booking for earth", %{earth_apartment: apartment} do
       valid_attrs = %{
         apartment_id: apartment.id,
         check_in: ~D[2023-03-26],
-        check_out: ~D[2023-03-26],
-        deposit: 100_000,
-        monthly_rent: 250_000,
-        utilities: 20000
+        check_out: ~D[2023-03-26]
       }
-
-      assert {:ok, %Booking{} = booking} = BookingRepository.create_booking(valid_attrs)
+      
+      assert {:ok, %Booking{} = booking} = BookingService.create(%{"check_in" => valid_attrs.check_in, "check_out" => valid_attrs.check_out, "apartment_id" => apartment.id})
       assert booking.apartment_id == apartment.id
       assert booking.check_in == ~D[2023-03-26]
       assert booking.check_out == ~D[2023-03-26]
       assert booking.deposit == 100_000
       assert booking.monthly_rent == 250_000
       assert booking.utilities == 20000
+    end
+
+    test "create_booking/1 with valid data creates a booking for mars", %{mars_apartment: apartment} do
+      valid_attrs = %{
+        apartment_id: apartment.id,
+        check_in: ~D[2023-03-26],
+        check_out: ~D[2023-03-26]
+      }
+
+      assert {:ok, %Booking{} = booking} = BookingService.create(%{"check_in" => valid_attrs.check_in, "check_out" => valid_attrs.check_out, "apartment_id" => apartment.id})
+      assert booking.apartment_id == apartment.id
+      assert booking.check_in == ~D[2023-03-26]
+      assert booking.check_out == ~D[2023-03-26]
+      assert booking.deposit == 250_000
+      assert booking.monthly_rent == 250_000
+      assert booking.utilities == 4200
     end
 
     test "create_booking/1 with invalid data returns error changeset" do

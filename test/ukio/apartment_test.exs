@@ -13,16 +13,17 @@ defmodule Ukio.ApartmentTest do
       monthly_price: nil,
       name: nil,
       square_meters: nil,
-      zip_code: nil
+      zip_code: nil,
+      market: nil
     }
 
     test "list_apartments/0 returns all apartments" do
-      apartment_fixture()
+      apartment_fixture_earth()
       assert length(ApartmentRepository.list_apartments()) == 1
     end
 
     test "get_apartment!/1 returns the apartment with given id" do
-      apartment = apartment_fixture()
+      apartment = apartment_fixture_earth()
       assert ApartmentRepository.get_apartment!(apartment.id) == apartment
     end
 
@@ -32,7 +33,8 @@ defmodule Ukio.ApartmentTest do
         monthly_price: 42,
         name: "some name",
         square_meters: 42,
-        zip_code: "some zip_code"
+        zip_code: "some zip_code",
+        market: :earth
       }
 
       assert {:ok, %Apartment{} = apartment} = ApartmentRepository.create_apartment(valid_attrs)
@@ -48,7 +50,7 @@ defmodule Ukio.ApartmentTest do
     end
 
     test "update_apartment/2 with valid data updates the apartment" do
-      apartment = apartment_fixture()
+      apartment = apartment_fixture_earth()
 
       update_attrs = %{
         address: "some updated address",
@@ -69,19 +71,19 @@ defmodule Ukio.ApartmentTest do
     end
 
     test "update_apartment/2 with invalid data returns error changeset" do
-      apartment = apartment_fixture()
+      apartment = apartment_fixture_earth()
       assert {:error, %Ecto.Changeset{}} = ApartmentRepository.update_apartment(apartment, @invalid_attrs)
       assert apartment == ApartmentRepository.get_apartment!(apartment.id)
     end
 
     test "delete_apartment/1 deletes the apartment" do
-      apartment = apartment_fixture()
+      apartment = apartment_fixture_earth()
       assert {:ok, %Apartment{}} = ApartmentRepository.delete_apartment(apartment)
       assert_raise Ecto.NoResultsError, fn -> ApartmentRepository.get_apartment!(apartment.id) end
     end
 
     test "change_apartment/1 returns a apartment changeset" do
-      apartment = apartment_fixture()
+      apartment = apartment_fixture_earth()
       assert %Ecto.Changeset{} = ApartmentRepository.change_apartment(apartment)
     end
   end

@@ -23,13 +23,15 @@ defmodule Ukio.Services.BookingService do
   def create(_), do: {:error, :unexpected}
 
   defp generate_booking_data(apartment, check_in, check_out) do
-    %{
+    basic_data = %{
       apartment_id: apartment.id,
       check_in: check_in,
       check_out: check_out,
-      monthly_rent: apartment.monthly_price,
-      utilities: 20_000,
-      deposit: 100_000
+      monthly_rent: apartment.monthly_price
     }
+    case apartment.market do
+    :mars -> Map.merge(basic_data, %{deposit: apartment.monthly_price, utilities: apartment.square_meters * 100})
+    _ -> Map.merge(basic_data, %{deposit: 100_000, utilities: 20_000})
+    end
   end
 end
