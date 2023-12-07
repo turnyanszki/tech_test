@@ -14,12 +14,6 @@ defmodule UkioWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", UkioWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-  end
-
   scope "/api", UkioWeb do
     pipe_through :api
 

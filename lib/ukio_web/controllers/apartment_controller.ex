@@ -37,6 +37,8 @@ defmodule UkioWeb.ApartmentController do
 
   def index(conn, _params) do
     apartments = ApartmentRepository.list_apartments()
-    render(conn, :index, apartments: apartments)
+    conn
+    |> put_view(UkioWeb.JsonRenderers.ApartmentJSON)
+    |> render(:index, apartments: apartments)
   end
 end

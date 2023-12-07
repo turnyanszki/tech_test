@@ -10,7 +10,7 @@ defmodule UkioWeb.FallbackController do
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(:unprocessable_entity)
-    |> put_view(json: UkioWeb.ChangesetJSON)
+    |> put_view(json: UkioWeb.JsonRenderers.ChangesetJSON)
     |> render(:error, changeset: changeset)
   end
 
@@ -18,7 +18,7 @@ defmodule UkioWeb.FallbackController do
   def call(conn, {:error, :not_found}) do
     conn
     |> put_status(:not_found)
-    |> put_view(html: UkioWeb.ErrorHTML, json: UkioWeb.ErrorJSON)
-    |> render(:"404")
+    |> put_view(json: UkioWeb.JsonRenderers.ErrorJSON)
+    |> render("404.json")
   end
 end

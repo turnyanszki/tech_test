@@ -45,28 +45,32 @@ def create(conn, %{"booking" => booking_params}) do
     {:ok, %Booking{} = booking} ->
       conn
       |> put_status(201)
-      |> put_view(UkioWeb.BookingJSON)
+      |> put_view(UkioWeb.JsonRenderers.BookingJSON)
       |> render(:show, booking: booking)
      401 ->
       conn
       |> put_status(401)
-      |> put_view(UkioWeb.ErrorJSON)
+      |> put_view(UkioWeb.JsonRenderers.ErrorJSON)
       |> render("401.json")
     _ ->
       conn
       |> put_status(500)
-      |> put_view(UkioWeb.ErrorJSON)
+      |> put_view(UkioWeb.JsonRenderers.ErrorJSON)
       |> render("500.json")
   end
 end
 
   def show(conn, %{"id" => id}) do
     booking = BookingRepository.get_booking!(id)
-    render(:show, booking: booking)
+    conn
+    |> put_view(UkioWeb.JsonRenderers.BookingJSON)
+    |> render(:show, booking: booking)
   end
 
   def index(conn, _params) do
     bookings = BookingRepository.list_bookings()
-    render(:index, bookings: bookings)
+    conn
+    |> put_view(UkioWeb.JsonRenderers.BookingJSON)
+    |> render(:index, bookings: bookings)
   end
 end
